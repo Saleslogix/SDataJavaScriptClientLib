@@ -4,8 +4,8 @@ This repository contains a JavaScript library for consuming [SData](http://sdata
 
 ## Downloading
 
-* [minified](http://github.com/SageScottsdalePlatform/SDataJavaScriptClientLib/raw/master/deploy/sdata-client.js)
-* [debug](http://github.com/SageScottsdalePlatform/SDataJavaScriptClientLib/raw/master/deploy/sdata-client-debug.js)
+* [minified](http://github.com/SageSalesLogix/SDataJavaScriptClientLib/raw/master/deploy/sdata-client.js)
+* [debug](http://github.com/SageSalesLogix/SDataJavaScriptClientLib/raw/master/deploy/sdata-client-debug.js)
 
 ## Building A Release Version
 
