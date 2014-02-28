@@ -10,55 +10,44 @@
 
   <% }; %>
 
-  <!-- JSON -->
-  <script type="text/javascript" src="libraries/json2.js"></script>
+  <!-- dependencies -->
+  <script type="text/javascript" src="libraries/sage/sage.js"></script>
+  <script type="text/javascript" src="libraries/sage/class.js"></script>
+  <script type="text/javascript" src="libraries/sage/event.js"></script>
+  <script type="text/javascript" src="libraries/sage/evented.js"></script>
+  <script type="text/javascript" src="libraries/sage/deferred.js"></script>
+  <script type="text/javascript" src="libraries/Base64.js"></script>
+  <script type="text/javascript" src="libraries/ObjTree.js"></script>
+  <script type="text/javascript" src="libraries/parseuri.js"></script>
 
-  <!-- ReUI -->
-  <script type="text/javascript">
-  reConfig = {
-      autoInit: false,
-      legacyMode: false,
-      showInitialPage: false,
-      updateBackButtonText: false
-  };
-  </script>
-  <script type="text/javascript" src="libraries/reui/reui.js"></script>
+  <!-- client -->
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataAjax.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataUri.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataBaseRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataApplicationRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataSingleResourceRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataSystemRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataTemplateResourceRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataResourceCollectionRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataNamedQueryRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataResourcePropertyRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataServiceOperationRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataBatchRequest.js"></script>
+  <script type="text/javascript" src=".grunt/grunt-contrib-jasmine/src/SDataService.js"></script>
 
-  <!-- SData Client Library -->
-  <script type="text/javascript" src="libraries/sdata/sdata-client-dependencies-debug.js"></script>
-  <script type="text/javascript" src="libraries/sdata/sdata-client-debug.js"></script>
-
-  <!-- Moment.js -->
-  <script type="text/javascript" src="libraries/moment/min/moment.min.js"></script>
-
-  <!-- Simplate -->
-  <script type="text/javascript" src="libraries/Simplate.js"></script>
-
-  <!-- Overthrow -->
-  <script type="text/javascript" src="libraries/overthrow/overthrow.js"></script>
-
-  <!-- canvas2image for when HTMLCanvasElement.prototype.toDataURL isn't available -->
-  <script type="text/javascript" src="libraries/canvas2image.js"></script>
 
   <!-- Dojo -->
   <script type="text/javascript" src="libraries/dojo/dojo/dojo.js" data-dojo-config="parseOnLoad:false, async:true"></script>
   <script type="text/javascript">
   require({
       baseUrl: "./",
-        packages: [
-            { name: 'dojo', location: 'libraries/dojo/dojo' },
-            { name: 'dijit', location: 'libraries/dojo/dijit' },
-            { name: 'dojox', location: 'libraries/dojo/dojox' },
-            { name: 'snap', location: 'libraries/snap', main: 'snap' },
-            { name: 'moment', location: 'libraries/moment', main: 'moment' },
-            { name: 'Sage/Platform/Mobile', location: '.grunt/grunt-contrib-jasmine/src' },// istanbul outputs the instrumented to this temp folder
-            { name: 'tests', location: 'tests' }
-        ],
-        paths: {
-            'Sage/Platform/Mobile': '.grunt/grunt-contrib-jasmine/src'
-        }
+      packages: [
+          { name: 'dojo', location: 'libraries/dojo/dojo' },
+          { name: 'spec', location: 'tests' }
+      ]
   });
   </script>
+
   <% css.forEach(function(style){ %>
   <link rel="stylesheet" type="text/css" href="<%= style %>">
   <% }); %>
@@ -70,9 +59,7 @@
   <script type="text/javascript">
   <% with (scripts) { %>
   require([
-  <% specs.forEach(function(spec) { %>
-    '<%= spec.replace("./tests", "tests").replace(".js", "") %>',
-  <% }); %>
+    'spec/all',
     '<%= boot %>',
     '<%= reporters[0] %>',
     '<%= reporters[1] %>'
