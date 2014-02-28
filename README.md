@@ -4,8 +4,14 @@ This repository contains a JavaScript library for consuming [SData](http://sdata
 
 ## Downloading
 
-* [minified](http://github.com/SageSalesLogix/SDataJavaScriptClientLib/raw/master/deploy/sdata-client.js)
-* [debug](http://github.com/SageSalesLogix/SDataJavaScriptClientLib/raw/master/deploy/sdata-client-debug.js)
+* [minified](http://github.com/SalesLogix/SDataJavaScriptClientLib/raw/master/deploy/sdata-client.js)
+* [debug](http://github.com/SalesLogix/SDataJavaScriptClientLib/raw/master/deploy/sdata-client-debug.js)
+
+## Running tests
+1. Install [nodejs](http://nodejs.org/)
+2. Install gruntjs via command line: `npm install -g grunt-cli`
+3. Run `npm install` in the SDataJavaScriptClientLib folder root
+4. Run `grunt test` in the SDataJavaScriptClientLib folder root
 
 ## Building A Release Version
 
