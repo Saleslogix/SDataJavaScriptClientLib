@@ -31,3 +31,14 @@ _ReSharper*/
 .idea/
 
 web.config
+
+*.patch
+
+*.swp
+
+# nodejs
+node_modules
+.grunt/
+_SpecRunner.html
+report/junit.xml
+coverage

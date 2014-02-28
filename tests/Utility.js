@@ -1,4 +1,4 @@
-(function() {
+define('spec/Utility', [], function() {
     var nameToPathCache = {};
     var nameToPath = function(name) {
             if (typeof name !== 'string' || name === '.' || name === '') return []; // '', for compatibility
@@ -38,7 +38,7 @@
         };
 
     beforeEach(function() {
-        this.addMatchers({
+        jasmine.addMatchers({
             toHaveProperty: function(name, value) {
                 var empty = {},
                     actual = getValue(this.actual, name, empty);
@@ -51,4 +51,4 @@
             }
         });
     });
-})();
+});

@@ -4,12 +4,9 @@
 <head>
     <title>SDataJavaScriptClientLib Test Runner</title>
 
-    <script src="../libraries/dojo/dojo.js" type="text/javascript"></script>
-    <script src="../libraries/dojo/DeferredList.js" type="text/javascript"></script>
-
-    <link rel="stylesheet" type="text/css" href="../libraries/jasmine/jasmine.css">
-    <script type="text/javascript" src="../libraries/jasmine/jasmine.js"></script>
-    <script type="text/javascript" src="../libraries/jasmine/jasmine-html.js"></script>
+    <link rel="stylesheet" type="text/css" href="../libraries/jasmine-2.0.0/jasmine.css">
+    <script type="text/javascript" src="../libraries/jasmine-2.0.0/jasmine.js"></script>
+    <script type="text/javascript" src="../libraries/jasmine-2.0.0/jasmine-html.js"></script>
 
     <!-- dependencies -->
     <script type="text/javascript" src="../libraries/sage/sage.js"></script>
@@ -36,35 +33,40 @@
     <script type="text/javascript" src="../src/SDataBatchRequest.js"></script>
     <script type="text/javascript" src="../src/SDataService.js"></script>
 
-    <!-- test utility -->
-    <script type="text/javascript" src="Utility.js"></script>
 
-    <!-- tests -->
-    <script type="text/javascript" src="SDataUriTests.js"></script>
-    <script type="text/javascript" src="SDataServiceTests.js"></script>
-    <script type="text/javascript" src="SDataSingleResourceRequestTests.js"></script>
-    <script type="text/javascript" src="SDataResourceCollectionRequestTests.js"></script>
-    <script type="text/javascript" src="SDataServiceOperationRequestTests.js"></script>
-    <script type="text/javascript" src="SDataBatchRequestTests.js"></script>
+    <!-- Dojo -->
+    <script type="text/javascript" src="../libraries/dojo/dojo/dojo.js" data-dojo-config="parseOnLoad:false, async:true"></script>
+    <script type="text/javascript">
+    require({
+        baseUrl: "./",
+        packages: [
+            { name: 'dojo', location: '../libraries/dojo/dojo' },
+            { name: 'spec', location: '.' }
+        ]
+    });
+    </script>
 </head>
 <body>
 <script type="text/javascript">
-    dojo.require('dojo.DeferredList');
-    dojo.provide('Resources');
-    dojo.mixin(Resources, {
-        _store: {},
-        get: function(name) {
-            return Resources._store[name];
-        },
-        set: function(name, value) {
-            Resources._store[name] = value;
-        }
-    });
-    
-    dojo.ready(function() {
 
-        var wait = [],
-            preload = [
+    require([
+        'dojo/DeferredList',
+        'dojo/request/xhr',
+        'dojo/_base/array',
+        'dojo/_base/lang',
+        'dojo/ready',
+        'spec/all',
+        '../libraries/jasmine-2.0.0/boot.js'
+    ],
+    function(
+        DeferredList,
+        xhr,
+        array,
+        lang,
+        ready
+    ) {
+        ready(function() {
+            var preload = [
                 'TestEntry.xml',
                 'TestEntryWithPrefix.xml',
                 'TestEntryMixedPrefix.xml',
@@ -76,23 +78,14 @@
                 'TestServiceResponse.xml'
             ];
 
-        dojo.forEach(preload, function(item) {
-            wait.push(dojo.xhrGet({
-                url: item,
-                handleAs: 'text'
-            }).then(function(result) {
-                Resources.set(item, result);
-            }));
-        });
-
-        new dojo.DeferredList(wait)
-            .then(function(results) {
-                if (dojo.some(results, function(result) { return !result[0]; }))
-                    throw new Error("Could not pre-load expected resources.");
-
-                jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-                jasmine.getEnv().execute();
+            array.forEach(preload, function(item) {
+                xhr.get({
+                    url: item,
+                    sync: true,
+                    handleAs: 'text'
+                })
             });
+        });
     });
 </script>
 </body>
