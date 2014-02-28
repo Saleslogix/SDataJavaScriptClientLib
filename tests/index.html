@@ -50,42 +50,13 @@
 <script type="text/javascript">
 
     require([
-        'dojo/DeferredList',
-        'dojo/request/xhr',
-        'dojo/_base/array',
-        'dojo/_base/lang',
-        'dojo/ready',
         'spec/all',
         '../libraries/jasmine-2.0.0/boot.js'
     ],
     function(
-        DeferredList,
-        xhr,
-        array,
-        lang,
-        ready
+        specs,
+        boot
     ) {
-        ready(function() {
-            var preload = [
-                'TestEntry.xml',
-                'TestEntryWithPrefix.xml',
-                'TestEntryMixedPrefix.xml',
-                'TestFeed.json', // if running this test through IIS, be sure to have the appropriate mime type, 'application/json', set for '.json'.
-                'TestFeed.xml',
-                'TestFeedExplicit.xml',
-                'TestFeedSplit.xml',
-                'TestFeedWithPrefix.xml',
-                'TestServiceResponse.xml'
-            ];
-
-            array.forEach(preload, function(item) {
-                xhr.get({
-                    url: item,
-                    sync: true,
-                    handleAs: 'text'
-                })
-            });
-        });
     });
 </script>
 </body>

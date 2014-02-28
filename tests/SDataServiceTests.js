@@ -17,7 +17,7 @@ define('spec/SDataServiceTests', [], function() {
 
         it('can set available url properties via url passed to constructor', function() {
             var service = new Sage.SData.Client.SDataService("https://localhost:8080/sdata/aw/dynamic/alpha");
-            
+
             expect(service.uri.build()).toEqual("https://localhost:8080/sdata/aw/dynamic/alpha");
         });
 
@@ -60,7 +60,7 @@ define('spec/SDataServiceTests', [], function() {
 
         it('supports extension of the accept header', function() {
             spyOn(Sage.SData.Client.Ajax, 'request');
-            
+
             var service = new Sage.SData.Client.SDataService({
                 serverName: 'localhost',
                 virtualDirectory: 'sdata',
@@ -77,7 +77,7 @@ define('spec/SDataServiceTests', [], function() {
             (function(options) {
                 expect(options).toHaveProperty('headers');
                 expect(options).toHaveProperty('headers.Accept', 'application/atom+xml;type=feed;view=other,*/*;view=other');
-            })(Sage.SData.Client.Ajax.request.mostRecentCall.args[0]);
+            })(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0]);
         });
     });
 });

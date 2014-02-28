@@ -39,15 +39,29 @@ define('spec/Utility', [], function() {
 
     beforeEach(function() {
         jasmine.addMatchers({
-            toHaveProperty: function(name, value) {
-                var empty = {},
-                    actual = getValue(this.actual, name, empty);
-                return value === undefined
-                    ? actual !== empty
-                    : actual == value;
+            toHaveProperty: function(util, customEqualityTesters) {
+                return {
+                    compare: function(actual, name, value) {
+                        var empty = {},
+                            actual = getValue(actual, name, empty),
+                            result = {};
+
+                        result.pass = value === undefined
+                            ? actual !== empty
+                            : actual == value;
+
+                        return result;
+                    }
+                };
             },
-            toExist: function() {
-                return !!this.actual;
+            toExist: function( util, customEqualityTesters) {
+                return {
+                    compare: function(actual) {
+                        var result = {};
+                        result.pass = !!actual;
+                        return result;
+                    }
+                };
             }
         });
     });

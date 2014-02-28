@@ -1,11 +1,13 @@
-define('spec/SDataBatchRequestTests', [], function() {
+define('spec/SDataBatchRequestTests', [
+    'dojo/text!./TestBatch.xml'
+], function(xml) {
     describe('SDataBatchRequest', function() {
         var service,
             xml = new XML.ObjTree(),
-            withResponseContent = function(name) {
-                spyOn(Sage.SData.Client.Ajax, 'request').andCallFake(function(options) {
+            withResponseContent = function() {
+                spyOn(Sage.SData.Client.Ajax, 'request').and.callFake(function(options) {
                     options.success.call(options.scope || this, {
-                        responseText: Resources.get(name)
+                        responseText: xml
                     });
                 });
             };
@@ -85,15 +87,15 @@ define('spec/SDataBatchRequestTests', [], function() {
                 expect(formatted).toHaveProperty('feed.entry.length', 2);
                 expect(formatted).toHaveProperty('feed.entry.0.id', 'http://localhost/sdata/aw/dynamic/-/employees(1)?_includeContent=false');
                 expect(formatted).toHaveProperty('feed.entry.1.id', 'http://localhost/sdata/aw/dynamic/-/employees(2)?_includeContent=false');
-            })(xml.parseXML(Sage.SData.Client.Ajax.request.mostRecentCall.args[0].body));
+            })(xml.parseXML(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0].body));
         });
 
         it('can commit batch request', function() {
 
-            withResponseContent('TestBatch.xml');
+            withResponseContent();
 
             var success = jasmine.createSpy(),
-                failure = jasmine.createSpy(); 
+                failure = jasmine.createSpy();
 
             var batch = new Sage.SData.Client.SDataBatchRequest(service),
                 employeeA = {},

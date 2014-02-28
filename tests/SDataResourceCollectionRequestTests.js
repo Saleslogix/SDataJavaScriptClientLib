@@ -1,10 +1,20 @@
-define('spec/SDataResourceCollectionRequestTests', [], function() {
+define('spec/SDataResourceCollectionRequestTests', [
+    'dojo/text!./TestFeed.xml',
+    'dojo/text!./TestFeedExplicit.xml',
+    'dojo/text!./TestFeedWithPrefix.xml',
+    'dojo/text!./TestFeed.json'
+], function(
+    xmlTestFeed,
+    xmlTestFeedExplicit,
+    xmlTestFeedPrefix,
+    jsonTestFeed
+) {
     describe('SDataResourceCollectionRequest', function() {
         var service,
-            withResponseContent = function(name) {
-                spyOn(Sage.SData.Client.Ajax, 'request').andCallFake(function(options) {
+            withResponseContent = function(text) {
+                spyOn(Sage.SData.Client.Ajax, 'request').and.callFake(function(options) {
                     options.success.call(options.scope || this, {
-                        responseText: Resources.get(name)
+                        responseText: text
                     });
                 });
             };
@@ -37,7 +47,7 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
 
         it('can read atom feed with non-prefixed properties', function() {
 
-            withResponseContent('TestFeed.xml');
+            withResponseContent(xmlTestFeed);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();
@@ -59,12 +69,12 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
                 expect(feed).toHaveProperty('$resources');
                 expect(feed).toHaveProperty('$resources.length', 2);
                 expect(feed).toHaveProperty('$resources.0.ContactId', '1209');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
-        
+
         it('can read explicitly namespaced atom feed', function() {
 
-            withResponseContent('TestFeedExplicit.xml');
+            withResponseContent(xmlTestFeedExplicit);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();
@@ -86,12 +96,12 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
                 expect(feed).toHaveProperty('$resources');
                 expect(feed).toHaveProperty('$resources.length', 2);
                 expect(feed).toHaveProperty('$resources.0.ContactId', '1209');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
 
         it('can read atom feed with prefixed properties', function() {
 
-            withResponseContent('TestFeedWithPrefix.xml');
+            withResponseContent(xmlTestFeedPrefix);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();
@@ -112,12 +122,12 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
                 expect(feed).toHaveProperty('$resources');
                 expect(feed).toHaveProperty('$resources.length', 2);
                 expect(feed).toHaveProperty('$resources.0.ContactId', '1209');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
 
         it('can read json feed', function() {
 
-            withResponseContent('TestFeed.json');
+            withResponseContent(jsonTestFeed);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();
@@ -126,7 +136,7 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
                 .setResourceKind('employees');
 
             service.enableJson();
-            
+
             request.read({
                 success: success,
                 failure: failure
@@ -140,7 +150,7 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
                 expect(feed).toHaveProperty('$resources');
                 expect(feed).toHaveProperty('$resources.length', 2);
                 expect(feed).toHaveProperty('$resources.0.ContactId', '1209');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
 
         it('uses correct accept header for atom', function() {
@@ -154,7 +164,7 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
             (function(options) {
                 expect(options).toHaveProperty('headers');
                 expect(options).toHaveProperty('headers.Accept', 'application/atom+xml;type=feed,*/*');
-            })(Sage.SData.Client.Ajax.request.mostRecentCall.args[0]);
+            })(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0]);
         });
 
         it('uses correct accept header for json', function() {
@@ -170,7 +180,7 @@ define('spec/SDataResourceCollectionRequestTests', [], function() {
             (function(options) {
                 expect(options).toHaveProperty('headers');
                 expect(options).toHaveProperty('headers.Accept', 'application/json,*/*');
-            })(Sage.SData.Client.Ajax.request.mostRecentCall.args[0]);
+            })(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0]);
         });
     });
 });

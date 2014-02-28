@@ -1,11 +1,19 @@
-define('spec/SDataSingleResourceRequestTests', [], function() {
+define('spec/SDataSingleResourceRequestTests', [
+    'dojo/text!./TestEntryWithPrefix.xml',
+    'dojo/text!./TestEntryMixedPrefix.xml',
+    'dojo/text!./TestEntry.xml'
+], function(
+    xmlTestEntryWithPrefix,
+    xmlTestEntryWithMixedPrefix,
+    xmlTestEntry
+) {
     describe('SDataSingleResourceRequest', function() {
         var service,
             xml = new XML.ObjTree(),
-            withResponseContent = function(name) {
-                spyOn(Sage.SData.Client.Ajax, 'request').andCallFake(function(options) {
+            withResponseContent = function(text) {
+                spyOn(Sage.SData.Client.Ajax, 'request').and.callFake(function(options) {
                     options.success.call(options.scope || this, {
-                        responseText: Resources.get(name)
+                        responseText: text
                     });
                 });
             };
@@ -37,10 +45,10 @@ define('spec/SDataSingleResourceRequestTests', [], function() {
 
         it('can read atom entry with prefixed properties', function() {
 
-            withResponseContent('TestEntryWithPrefix.xml');
+            withResponseContent(xmlTestEntryWithPrefix);
 
             var success = jasmine.createSpy(),
-                failure = jasmine.createSpy();            
+                failure = jasmine.createSpy();
 
             var request = new Sage.SData.Client.SDataSingleResourceRequest(service)
                 .setResourceKind('employees')
@@ -61,12 +69,12 @@ define('spec/SDataSingleResourceRequestTests', [], function() {
                 expect(entry).toHaveProperty('DirectReports.$resources');
                 expect(entry).toHaveProperty('DirectReports.$resources.length', 2);
                 expect(entry).toHaveProperty('DirectReports.$resources.0.NationalIdNumber', '14417808');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
 
         it('can read atom entry with mixed properties', function() {
 
-            withResponseContent('TestEntryMixedPrefix.xml');
+            withResponseContent(xmlTestEntryWithMixedPrefix);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();
@@ -90,12 +98,12 @@ define('spec/SDataSingleResourceRequestTests', [], function() {
                 expect(entry).toHaveProperty('DirectReports.$resources');
                 expect(entry).toHaveProperty('DirectReports.$resources.length', 2);
                 expect(entry).toHaveProperty('DirectReports.$resources.0.NationalIdNumber', '14417808');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
 
         it('can read atom entry with non-prefixed properties', function() {
 
-            withResponseContent('TestEntry.xml');
+            withResponseContent(xmlTestEntry);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();
@@ -119,7 +127,7 @@ define('spec/SDataSingleResourceRequestTests', [], function() {
                 expect(entry).toHaveProperty('DirectReports.$resources');
                 expect(entry).toHaveProperty('DirectReports.$resources.length', 2);
                 expect(entry).toHaveProperty('DirectReports.$resources.0.NationalIdNumber', '14417808');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
 
         it('uses correct accept header for atom', function() {
@@ -134,7 +142,7 @@ define('spec/SDataSingleResourceRequestTests', [], function() {
             (function(options) {
                 expect(options).toHaveProperty('headers');
                 expect(options).toHaveProperty('headers.Accept', 'application/atom+xml;type=entry,*/*');
-            })(Sage.SData.Client.Ajax.request.mostRecentCall.args[0]);
+            })(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0]);
         });
 
         it('uses correct accept header for json', function() {
@@ -151,7 +159,7 @@ define('spec/SDataSingleResourceRequestTests', [], function() {
             (function(options) {
                 expect(options).toHaveProperty('headers');
                 expect(options).toHaveProperty('headers.Accept', 'application/json,*/*');
-            })(Sage.SData.Client.Ajax.request.mostRecentCall.args[0]);
+            })(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0]);
         });
     });
 });

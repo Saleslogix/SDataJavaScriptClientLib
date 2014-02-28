@@ -3,7 +3,7 @@ define('spec/SDataServiceOperationRequestTests', [], function() {
         var service,
             xml = new XML.ObjTree(),
             withResponseContent = function(name) {
-                spyOn(Sage.SData.Client.Ajax, 'request').andCallFake(function(options) {
+                spyOn(Sage.SData.Client.Ajax, 'request').and.callFake(function(options) {
                     options.success.call(options.scope || this, {
                         responseText: Resources.get(name)
                     });
@@ -32,7 +32,7 @@ define('spec/SDataServiceOperationRequestTests', [], function() {
 
             var request = new Sage.SData.Client.SDataServiceOperationRequest(service)
                 .setResourceKind('tasks')
-                .setOperationName('CompleteTask');        
+                .setOperationName('CompleteTask');
 
             var entry = {
                 '$name': 'TaskComplete',
@@ -49,16 +49,15 @@ define('spec/SDataServiceOperationRequestTests', [], function() {
                 expect(formatted).toHaveProperty('entry.sdata:payload.TaskComplete');
                 expect(formatted).toHaveProperty('entry.sdata:payload.TaskComplete.request');
                 expect(formatted).toHaveProperty('entry.sdata:payload.TaskComplete.request.TaskId', '1');
-            })(xml.parseXML(Sage.SData.Client.Ajax.request.mostRecentCall.args[0].body));
+            })(xml.parseXML(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0].body));
         });
 
         it('can execute service operation call', function() {
-            
             withResponseContent('TestServiceResponse.xml');
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();
-            
+
             var request = new Sage.SData.Client.SDataServiceOperationRequest(service)
                 .setResourceKind('tasks')
                 .setOperationName('CompleteTask');
@@ -83,7 +82,7 @@ define('spec/SDataServiceOperationRequestTests', [], function() {
                 expect(entry).toHaveProperty('response');
                 expect(entry).toHaveProperty('response.Result');
                 expect(entry).toHaveProperty('response.Result.Description', 'Confirm Meeting');
-            })(success.mostRecentCall.args[0]);
+            })(success.calls.mostRecent().args[0]);
         });
     });
 });
