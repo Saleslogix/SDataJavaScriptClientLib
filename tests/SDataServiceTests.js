@@ -15,6 +15,22 @@ define('spec/SDataServiceTests', [], function() {
             expect(service.uri.build()).toEqual("https://localhost:8080/sdata/aw/dynamic/alpha?_includeContent=true");
         });
 
+        it('can be compact', function() {
+            var service = new Sage.SData.Client.SDataService({
+                protocol: 'https',
+                serverName: 'localhost',
+                port: 8080,
+                virtualDirectory: 'sdata',
+                applicationName: 'aw',
+                contractName: 'dynamic',
+                dataSet: 'alpha',
+                compact: true
+            });
+
+            expect(service.uri.build()).toEqual("https://localhost:8080/sdata/aw/dynamic/alpha?_compact=true");
+
+        });
+
         it('can set available url properties via url passed to constructor', function() {
             var service = new Sage.SData.Client.SDataService("https://localhost:8080/sdata/aw/dynamic/alpha");
 
@@ -55,7 +71,7 @@ define('spec/SDataServiceTests', [], function() {
             var request = new Sage.SData.Client.SDataResourceCollectionRequest(service)
                 .setResourceKind('employees');
 
-            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/alpha/employees?_includeContent=false")
+            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/alpha/employees");
         });
 
         it('supports extension of the accept header', function() {

@@ -1,13 +1,13 @@
 define('spec/SDataBatchRequestTests', [
     'dojo/text!./TestBatch.xml'
-], function(xml) {
+], function(xmlText) {
     describe('SDataBatchRequest', function() {
         var service,
             xml = new XML.ObjTree(),
-            withResponseContent = function() {
+            withResponseContent = function(text) {
                 spyOn(Sage.SData.Client.Ajax, 'request').and.callFake(function(options) {
                     options.success.call(options.scope || this, {
-                        responseText: xml
+                        responseText: text
                     });
                 });
             };
@@ -25,7 +25,7 @@ define('spec/SDataBatchRequestTests', [
             var request = new Sage.SData.Client.SDataBatchRequest(service)
                 .setResourceKind('employees');
 
-            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees/%24batch?_includeContent=false");
+            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees/%24batch");
         });
 
         it('can add requests to batch', function() {
@@ -46,8 +46,8 @@ define('spec/SDataBatchRequestTests', [
             });
 
             expect(batch.items.length).toEqual(2);
-            expect(batch.items[0].url).toEqual("http://localhost/sdata/aw/dynamic/-/employees(1)?_includeContent=false");
-            expect(batch.items[1].url).toEqual("http://localhost/sdata/aw/dynamic/-/employees(2)?_includeContent=false");
+            expect(batch.items[0].url).toEqual("http://localhost/sdata/aw/dynamic/-/employees(1)");
+            expect(batch.items[1].url).toEqual("http://localhost/sdata/aw/dynamic/-/employees(2)");
         });
 
         it('can format feed for batch request', function() {
@@ -85,14 +85,14 @@ define('spec/SDataBatchRequestTests', [
                 expect(formatted).toHaveProperty('feed');
                 expect(formatted).toHaveProperty('feed.entry');
                 expect(formatted).toHaveProperty('feed.entry.length', 2);
-                expect(formatted).toHaveProperty('feed.entry.0.id', 'http://localhost/sdata/aw/dynamic/-/employees(1)?_includeContent=false');
-                expect(formatted).toHaveProperty('feed.entry.1.id', 'http://localhost/sdata/aw/dynamic/-/employees(2)?_includeContent=false');
+                expect(formatted).toHaveProperty('feed.entry.0.id', 'http://localhost/sdata/aw/dynamic/-/employees(1)');
+                expect(formatted).toHaveProperty('feed.entry.1.id', 'http://localhost/sdata/aw/dynamic/-/employees(2)');
             })(xml.parseXML(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0].body));
         });
 
         it('can commit batch request', function() {
 
-            withResponseContent();
+            withResponseContent(xmlText);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();

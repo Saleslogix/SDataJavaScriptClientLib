@@ -12,6 +12,20 @@ define('spec/SDataUriTests', [], function() {
             expect(uri.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees");
         });
 
+        it('can build url with compact content', function() {
+            var uri = new Sage.SData.Client.SDataUri()
+                .setHost('localhost')
+                .setServer('sdata')
+                .setProduct('aw')
+                .setContract('dynamic')
+                .setCompanyDataset('-')
+                .setCollectionType('employees')
+                .setQueryArg('format', 'json') // base sdata request does this
+                .setCompact(true);
+
+            expect(uri.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?format=json&_compact=true");
+        });
+
         it('can build url with included content', function() {
             var uri = new Sage.SData.Client.SDataUri()
                 .setHost('localhost')
@@ -23,6 +37,9 @@ define('spec/SDataUriTests', [], function() {
                 .setIncludeContent(true);
 
             expect(uri.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?_includeContent=true");
+
+            uri.setIncludeContent(false);
+            expect(uri.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?_includeContent=false");
         });
 
         it('can append path segment', function() {

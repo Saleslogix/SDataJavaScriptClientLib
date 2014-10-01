@@ -32,7 +32,7 @@ define('spec/SDataSingleResourceRequestTests', [
                 .setResourceKind('employees')
                 .setResourceSelector('1');
 
-            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees(1)?_includeContent=false");
+            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees(1)");
         });
 
         it('can build url with complex selector', function() {
@@ -40,7 +40,7 @@ define('spec/SDataSingleResourceRequestTests', [
                 .setResourceKind('employees')
                 .setResourceSelector("id eq '1234'");
 
-            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees(id%20eq%20'1234')?_includeContent=false");
+            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees(id%20eq%20'1234')");
         });
 
         it('can read atom entry with prefixed properties', function() {

@@ -85,6 +85,9 @@
             if (isDefined(expanded.version)) this.uri.setVersion(expanded.version);
             if (isDefined(expanded.json)) this.json = expanded.json;
 
+            // Support for the new compact mode in Saleslogix 8.1 and higher
+            if (isDefined(expanded.compact)) this.uri.setCompact(expanded.compact);
+
             if (isDefined(expanded.userName)) this.userName = expanded.userName;
             if (isDefined(expanded.password)) this.password = expanded.password;
 
@@ -599,7 +602,7 @@
             return xml.parseXML(text);
         },
         isIncludedReference: function(ns, name, value) {
-            return value.hasOwnProperty('@sdata:key');
+            return value && value.hasOwnProperty('@sdata:key');
         },
         isIncludedCollection: function(ns, name, value) {
             if (value.hasOwnProperty('@sdata:key')) return false;

@@ -34,7 +34,7 @@ define('spec/SDataResourceCollectionRequestTests', [
                 .setStartIndex(1)
                 .setCount(100);
 
-            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?_includeContent=false&startIndex=1&count=100");
+            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?startIndex=1&count=100");
         });
 
         it('can build url with query', function() {
@@ -42,7 +42,7 @@ define('spec/SDataResourceCollectionRequestTests', [
                 .setResourceKind('employees')
                 .setQueryArg('where', 'gender eq m');
 
-            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?_includeContent=false&where=gender%20eq%20m");
+            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?where=gender%20eq%20m");
         });
 
         it('can read atom feed with non-prefixed properties', function() {
