@@ -30,11 +30,13 @@
             this.completeHeaders = {};
             this.extendedHeaders = {};
             this.uri = new Sage.SData.Client.SDataUri();
+            var includeContent;
 
             if (this.service)
             {
                 this.uri.setVersion(this.service.getVersion());
-                this.uri.setIncludeContent(this.service.getIncludeContent());
+                includeContent = this.service.getIncludeContent();
+                if (typeof includeContent !== 'undefined') this.uri.setIncludeContent(includeContent);
                 this.uri.setServer(this.service.getVirtualDirectory() ? this.service.getVirtualDirectory() : 'sdata');
                 this.uri.setScheme(this.service.getProtocol());
                 this.uri.setHost(this.service.getServerName());

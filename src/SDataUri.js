@@ -184,11 +184,26 @@
             return this;
         },
         getIncludeContent: function() {
-            var name = this.version.major >= 1
+            var name, value;
+            name = this.version.major >= 1
                 ? C.SDataUri.QueryArgNames.IncludeContent
                 : C.SDataUri.QueryArgNames.LegacyIncludeContent;
 
-            return trueRE.test(this.queryArgs[name]);
+            value = this.queryArgs[name];
+
+            if (typeof value !== 'undefined') {
+                return trueRE.test(value);
+            } else {
+                return value;
+            }
+        },
+        setCompact: function(value) {
+            this.queryArgs[C.SDataUri.QueryArgNames.Compact] = value;
+
+            return this;
+        },
+        getCompact: function() {
+            return this.queryArgs[C.SDataUri.QueryArgNames];
         },
         setIncludeContent: function(value) {
             var name = this.version.major >= 1
@@ -312,6 +327,7 @@
         UnspecifiedPort: -1,
         UriName: 'uri',
         QueryArgNames: {
+            Compact: '_compact',
             Count: 'count',
             Exclude: 'exclude',
             Format: 'format',

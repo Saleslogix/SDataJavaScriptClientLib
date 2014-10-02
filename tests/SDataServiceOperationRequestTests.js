@@ -1,11 +1,11 @@
-define('spec/SDataServiceOperationRequestTests', [], function() {
+define('spec/SDataServiceOperationRequestTests', ['dojo/text!./TestServiceResponse.xml'], function(xmlText) {
     describe('SDataServiceOperationRequest', function() {
         var service,
             xml = new XML.ObjTree(),
-            withResponseContent = function(name) {
+            withResponseContent = function(text) {
                 spyOn(Sage.SData.Client.Ajax, 'request').and.callFake(function(options) {
                     options.success.call(options.scope || this, {
-                        responseText: Resources.get(name)
+                        responseText: text
                     });
                 });
             };
@@ -24,7 +24,7 @@ define('spec/SDataServiceOperationRequestTests', [], function() {
                 .setResourceKind('tasks')
                 .setOperationName('CompleteTask');
 
-            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/tasks/%24service/CompleteTask?_includeContent=false");
+            expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/tasks/%24service/CompleteTask");
         });
 
         it('can format atom entry for service operation call', function() {
@@ -53,7 +53,7 @@ define('spec/SDataServiceOperationRequestTests', [], function() {
         });
 
         it('can execute service operation call', function() {
-            withResponseContent('TestServiceResponse.xml');
+            withResponseContent(xmlText);
 
             var success = jasmine.createSpy(),
                 failure = jasmine.createSpy();

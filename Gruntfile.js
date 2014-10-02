@@ -47,5 +47,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
 
     grunt.registerTask('test', ['connect', 'jasmine:coverage']);
+    grunt.registerTask('server', ['connect:server:keepalive']);
     grunt.registerTask('default', ['test']);
 };
