@@ -1198,8 +1198,7 @@
                 'beforerequest',
                 'requestcomplete',
                 'requestexception',
-                'requestaborted',
-                'requesttimeout'
+                'requestaborted'
             );
         },
         isJsonEnabled: function() {
@@ -1358,12 +1357,6 @@
 
                     if (options.aborted)
                         options.aborted.call(options.scope || this, response, opt);
-                },
-                timeout: function(response, opt) {
-                    this.fireEvent('requesttimeout', request, opt, response);
-
-                    if (options.timeout)
-                        options.timeout.call(options.scope || this, response, opt);
                 }
             }, ajax);
 
