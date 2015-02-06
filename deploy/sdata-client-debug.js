@@ -67,6 +67,18 @@
         }
     };
 
+    var onTimeout = function(xhr, o) {
+        if (o.failure)
+            o.failure.call(o.scope || this, xhr, o);
+    };
+
+    var bindOnTimeout = function(xhr, o) {
+        xhr.ontimeout = function() {
+            onTimeout.call(xhr, xhr, o);
+        };
+    };
+
+
     var bindOnReadyStateChange = function(xhr, o) {
         xhr.onreadystatechange = function() {
             onReadyStateChange.call(xhr, xhr, o);
@@ -124,6 +136,12 @@
             }
             catch (headerException)
             {
+            }
+
+            if (typeof o.timeout === 'number' && o.timeout >= 0 && req.hasOwnProperty('timeout'))
+            {
+                xhr.timeout = o.timeout;
+                bindOnTimeout(xhr, o);
             }
 
             if (o.async !== false)
@@ -1141,6 +1159,7 @@
         userName: false,
         password: '',
         batchScope: null,
+        timeout: 0,
         constructor: function(options, userName, password) {
             // pass the first argument to the base class; will only have an effect if the argument
             // is an object and has a `listeners` property.
@@ -1164,6 +1183,8 @@
             if (isDefined(expanded.version)) this.uri.setVersion(expanded.version);
             if (isDefined(expanded.json)) this.json = expanded.json;
 
+            if (isDefined(expanded.timeout)) this.timeout = expanded.timeout;
+
             // Support for the new compact mode in Saleslogix 8.1 and higher
             if (isDefined(expanded.compact)) this.uri.setCompact(expanded.compact);
 
@@ -1177,7 +1198,8 @@
                 'beforerequest',
                 'requestcomplete',
                 'requestexception',
-                'requestaborted'
+                'requestaborted',
+                'requesttimeout'
             );
         },
         isJsonEnabled: function() {
@@ -1336,10 +1358,20 @@
 
                     if (options.aborted)
                         options.aborted.call(options.scope || this, response, opt);
+                },
+                timeout: function(response, opt) {
+                    this.fireEvent('requesttimeout', request, opt, response);
+
+                    if (options.timeout)
+                        options.timeout.call(options.scope || this, response, opt);
                 }
             }, ajax);
 
             S.apply(o.headers, this.createHeadersForRequest(request), request.completeHeaders);
+
+            if (typeof this.timeout === 'number') {
+                o.timeout = this.timeout;
+            }
 
             /* we only handle `Accept` for now */
             if (request.extendedHeaders['Accept'])

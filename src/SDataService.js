@@ -62,6 +62,7 @@
         userName: false,
         password: '',
         batchScope: null,
+        timeout: 0,
         constructor: function(options, userName, password) {
             // pass the first argument to the base class; will only have an effect if the argument
             // is an object and has a `listeners` property.
@@ -84,6 +85,8 @@
             if (isDefined(expanded.includeContent)) this.uri.setIncludeContent(expanded.includeContent);
             if (isDefined(expanded.version)) this.uri.setVersion(expanded.version);
             if (isDefined(expanded.json)) this.json = expanded.json;
+
+            if (isDefined(expanded.timeout)) this.timeout = expanded.timeout;
 
             // Support for the new compact mode in Saleslogix 8.1 and higher
             if (isDefined(expanded.compact)) this.uri.setCompact(expanded.compact);
@@ -261,6 +264,10 @@
             }, ajax);
 
             S.apply(o.headers, this.createHeadersForRequest(request), request.completeHeaders);
+
+            if (typeof this.timeout === 'number') {
+                o.timeout = this.timeout;
+            }
 
             /* we only handle `Accept` for now */
             if (request.extendedHeaders['Accept'])
