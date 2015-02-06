@@ -135,7 +135,7 @@
             {
             }
 
-            if (typeof o.timeout === 'number' && o.timeout >= 0 && req.hasOwnProperty('timeout'))
+            if (typeof o.timeout === 'number' && o.timeout >= 0 && xhr.hasOwnProperty('timeout'))
             {
                 xhr.timeout = o.timeout;
                 bindOnTimeout(xhr, o);
