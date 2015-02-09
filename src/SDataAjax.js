@@ -64,6 +64,18 @@
         }
     };
 
+    var onTimeout = function(xhr, o) {
+        if (o.failure)
+            o.failure.call(o.scope || this, xhr, o);
+    };
+
+    var bindOnTimeout = function(xhr, o) {
+        xhr.ontimeout = function() {
+            onTimeout.call(xhr, xhr, o);
+        };
+    };
+
+
     var bindOnReadyStateChange = function(xhr, o) {
         xhr.onreadystatechange = function() {
             onReadyStateChange.call(xhr, xhr, o);
@@ -123,8 +135,16 @@
             {
             }
 
+
             if (o.async !== false)
             {
+                // Set the timeout only if the request is async
+                if (typeof o.timeout === 'number' && o.timeout >= 0 && xhr.hasOwnProperty('timeout'))
+                {
+                    xhr.timeout = o.timeout;
+                    bindOnTimeout(xhr, o);
+                }
+
                 bindOnReadyStateChange(xhr, o);
 
                 xhr.send(o.body || null);
