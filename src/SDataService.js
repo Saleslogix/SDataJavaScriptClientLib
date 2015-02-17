@@ -923,7 +923,7 @@
                         ]
                     };
                 else
-                    return false;
+                    return doc;
             }
         }
     });
