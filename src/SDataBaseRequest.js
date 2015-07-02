@@ -30,7 +30,7 @@
             this.completeHeaders = {};
             this.extendedHeaders = {};
             this.uri = new Sage.SData.Client.SDataUri();
-            var includeContent;
+            var includeContent, compact;
 
             if (this.service)
             {
@@ -41,6 +41,8 @@
                 this.uri.setScheme(this.service.getProtocol());
                 this.uri.setHost(this.service.getServerName());
                 this.uri.setPort(this.service.getPort());
+                compact = this.service.getCompact();
+                if (typeof compact !== 'undefined') this.uri.setCompact(compact);
             }
         },
         clone: function() {

@@ -203,7 +203,7 @@
             return this;
         },
         getCompact: function() {
-            return this.queryArgs[C.SDataUri.QueryArgNames];
+            return this.queryArgs[C.SDataUri.QueryArgNames.Compact];
         },
         setIncludeContent: function(value) {
             var name = this.version.major >= 1

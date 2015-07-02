@@ -161,5 +161,18 @@ define('spec/SDataSingleResourceRequestTests', [
                 expect(options).toHaveProperty('headers.Accept', 'application/json,*/*');
             })(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0]);
         });
+
+        it('passes compact from service to request', function() {
+            service = new Sage.SData.Client.SDataService({
+                serverName: 'localhost',
+                virtualDirectory: 'sdata',
+                applicationName: 'aw',
+                contractName: 'dynamic',
+                compact: true
+            });
+
+            var request = new Sage.SData.Client.SDataBaseRequest(service);
+            expect(request.uri.getCompact()).toEqual(true);
+        });
     });
 });

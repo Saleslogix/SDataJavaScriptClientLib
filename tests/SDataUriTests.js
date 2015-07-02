@@ -26,6 +26,13 @@ define('spec/SDataUriTests', [], function() {
             expect(uri.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?format=json&_compact=true");
         });
 
+        it('can set and get compact', function() {
+            var uri = new Sage.SData.Client.SDataUri()
+                .setCompact(true);
+
+            expect(uri.getCompact()).toEqual(true);
+        });
+
         it('can build url with included content', function() {
             var uri = new Sage.SData.Client.SDataUri()
                 .setHost('localhost')

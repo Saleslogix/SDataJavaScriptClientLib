@@ -197,6 +197,13 @@
             this.uri.setIncludeContent(value);
             return this;
         },
+        getCompact: function() {
+            return this.uri.getCompact();
+        },
+        setCompact: function(value) {
+            this.uri.setCompact(value);
+            return this;
+        },
         getUserAgent: function() {
             return this.userAgent;
         },
