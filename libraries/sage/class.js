@@ -26,7 +26,7 @@
 	** ours defines the extend() method directly on every defined class
 */
 /*global Sage $ alert*/
-if(Sage) {
+if(window.Sage) {
     (function(S) {
         var INITIALIZING = false,
             // straight outta base2
@@ -35,7 +35,7 @@ if(Sage) {
         // The base Class placeholder
         S.Class = function(){};
         // Create a new Class that inherits from this class
-        S.Class.define = function(prop) {
+        S.Class.define = function define(prop) {
             var base = this.prototype;
             // Instantiate a base class (but only create the instance)
             INITIALIZING = true;
@@ -86,9 +86,9 @@ if(Sage) {
             // Enforce the constructor to be what we expect
             Class.constructor = Class;
             // And make this class 'define-able'
-            Class.define = arguments.callee;
+            Class.define = define;
             Class.extend = Class.define; // sounds better for inherited classes
             return Class;
         };
-    }(Sage));
+    }(window.Sage));
 }

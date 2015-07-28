@@ -14,7 +14,9 @@
  */
 
 (function(){
-    var S = Sage,
+    "use strict";
+    var Sage = window.Sage,
+        S = Sage,
         C = Sage.namespace('Sage.SData.Client');
 
     Sage.SData.Client.SDataApplicationRequest = Sage.SData.Client.SDataBaseRequest.extend({
@@ -62,4 +64,3 @@
         }
     });
 })();
-

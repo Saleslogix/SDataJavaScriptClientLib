@@ -1,6 +1,7 @@
 // ========================================================================
 //  XML.ObjTree -- XML source code from/to JavaScript object like E4X
 // ========================================================================
+var XML = window.XML;
 
 if ( typeof(XML) == 'undefined' ) XML = function() {};
 

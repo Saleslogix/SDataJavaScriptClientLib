@@ -14,7 +14,9 @@
  */
 
 (function(){
-    var S = Sage,
+    "use strict";
+    var Sage = window.Sage,
+        S = Sage,
         C = Sage.namespace('Sage.SData.Client'),
         trueRE = /^true$/i;
 
@@ -49,7 +51,7 @@
                 major: 0,
                 minor: 0
             }, value);
-            
+
             return this;
         },
         getScheme: function() {
@@ -160,7 +162,7 @@
 
                 this.pathSegments[i] = S.apply({}, segment, this.pathSegments[i]);
             }
-            
+
             return this;
         },
         getStartIndex: function() {

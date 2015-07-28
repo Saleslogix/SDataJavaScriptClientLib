@@ -14,7 +14,9 @@
  */
 
 (function() {
-    var S = Sage,
+    "use strict";
+    var Sage = window.Sage,
+        S = Sage,
         C = Sage.namespace('Sage.SData.Client'),
         isDefined = function(value) { return typeof value !== 'undefined' },
         expand = function(options, userName, password) {
@@ -225,7 +227,7 @@
                 /* 'User-Agent': this.userAgent */ /* 'User-Agent' cannot be set on XmlHttpRequest */
                 'X-Authorization-Mode': 'no-challenge'
             };
-            
+
             if (this.userName && !this.useCredentialedRequest)
                 headers['Authorization'] = headers['X-Authorization'] = this.createBasicAuthToken();
 
@@ -237,7 +239,7 @@
         },
         executeRequest: function(request, options, ajax) {
             /// <param name="request" type="Sage.SData.Client.SDataBaseRequest">request object</param>
-            
+
             // todo: temporary fix for SalesLogix Dynamic Adapter only supporting json selector in format parameter
             if (this.json) request.setQueryArg('format', 'json');
 
@@ -386,8 +388,8 @@
                 });
 
                 return;
-            }            
-            
+            }
+
             var o = S.apply({}, {
                 success: function(feed) {
                     var entry = feed['$resources'][0] || false;
@@ -629,7 +631,7 @@
             for (var fqPropertyName in value)
             {
                 if (fqPropertyName.charAt(0) === '@') continue;
-                
+
                 firstChild = value[fqPropertyName];
                 break; // will always ever be one property, either an entity, or an array of
             }
@@ -640,7 +642,7 @@
                     firstValue = firstChild[0];
                 else
                     firstValue = firstChild;
-                
+
                 if (firstValue && firstValue.hasOwnProperty('@sdata:key')) return true;
             }
 
@@ -733,7 +735,7 @@
             applyTo = applyTo || {};
 
             if (entity['$key']) applyTo['@sdata:key'] = entity['$key'];
-       
+
             // todo: is this necessary? does not appear to be looking at the spec
             // if (entity['$url']) applyTo['@sdata:uri'] = entity['$url'];
 
@@ -810,7 +812,7 @@
                 else
                 {
                     continue;
-                }   
+                }
 
                 this.convertEntity(ns, name, entity, result);
             }

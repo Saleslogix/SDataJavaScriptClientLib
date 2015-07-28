@@ -145,6 +145,7 @@ var Base64 = {
 };// ========================================================================
 //  XML.ObjTree -- XML source code from/to JavaScript object like E4X
 // ========================================================================
+var XML = window.XML;
 
 if ( typeof(XML) == 'undefined' ) XML = function() {};
 
@@ -706,7 +707,7 @@ parseUri.options = {
 };
 // The Top-Level Namespace
 /*global Sage $ alert*/
-Sage = (function() {
+window.Sage = (function() {
     var apply = function(a, b, c)
     {
         if (a && c) for (var n in c) a[n] = c[n];
@@ -748,7 +749,8 @@ Sage = (function() {
         isArray: isArray,
         __namespace: true
     };
-}());/*
+}());
+/*
     Make a new Class:
     var Person = Sage.Class.define({
 		constructor: function(str) {
@@ -776,7 +778,7 @@ Sage = (function() {
 	** ours defines the extend() method directly on every defined class
 */
 /*global Sage $ alert*/
-if(Sage) {
+if(window.Sage) {
     (function(S) {
         var INITIALIZING = false,
             // straight outta base2
@@ -785,7 +787,7 @@ if(Sage) {
         // The base Class placeholder
         S.Class = function(){};
         // Create a new Class that inherits from this class
-        S.Class.define = function(prop) {
+        S.Class.define = function define(prop) {
             var base = this.prototype;
             // Instantiate a base class (but only create the instance)
             INITIALIZING = true;
@@ -836,17 +838,18 @@ if(Sage) {
             // Enforce the constructor to be what we expect
             Class.constructor = Class;
             // And make this class 'define-able'
-            Class.define = arguments.callee;
+            Class.define = define;
             Class.extend = Class.define; // sounds better for inherited classes
             return Class;
         };
-    }(Sage));
-}/*global Sage $ alert*/
-if(Sage) {
+    }(window.Sage));
+}
+/*global Sage $ alert*/
+if(window.Sage) {
     (function(S) {
         // place the Deferred class into Sage.Utility
         S.namespace('Utility');
-        
+
         S.Utility.Deferred = function(fn, args, scope) {
             var that = this, id,
             c = function() {
@@ -866,12 +869,13 @@ if(Sage) {
                 }
             };
         };
-    }(Sage));
-}// Event class is instantiated by the Evented class. Probably no need
+    }(window.Sage));
+}
+// Event class is instantiated by the Evented class. Probably no need
 // to call this directly
 
 /*global Sage $ alert*/
-if(Sage) {
+if(window.Sage) {
     (function(S) {
         var SLICE = Array.prototype.slice,
             TRUE = true, FALSE = false,
@@ -907,7 +911,7 @@ if(Sage) {
             };
         // place the Event class in Utility
         S.namespace('Utility');
-        
+
         S.Utility.Event = Sage.Class.define({
             constructor: function(obj, name) {
                 this.name = name;
@@ -926,7 +930,7 @@ if(Sage) {
                 }
             },
             createListener: function(fn, scope, o) {
-                o = o || {}; 
+                o = o || {};
                 scope = scope || this.obj;
                 var l = {
                     fn: fn,
@@ -1018,8 +1022,9 @@ if(Sage) {
                 return TRUE;
             }
         }); // end S.Event class
-    }(Sage));
-}/*
+    }(window.Sage));
+}
+/*
     var Employee = Sage.Evented.extend({
         constructor: function(c) {
             this.name = c.name;
@@ -1039,14 +1044,14 @@ if(Sage) {
 */
 
 /*global Sage $ alert*/
-if(Sage) {
+if(window.Sage) {
     (function(S) {
         var SLICE = Array.prototype.slice,
             TRUE = true, FALSE = false,
             // do not include these
             FILTER = /^(?:scope|delay|buffer|single)$/,
             EACH = S.each;
-        
+
         S.Evented = S.Class.define({
             constructor: function(config) {
                 var that = this,
@@ -1096,7 +1101,7 @@ if(Sage) {
                     for (e in o){
                         oe = o[e];
                         if (!FILTER.test(e)) {
-                            that.addListener(e, oe.fn || oe, oe.scope || 
+                            that.addListener(e, oe.fn || oe, oe.scope ||
                                 o.scope, oe.fn ? oe : o);
                         }
                     }
@@ -1156,10 +1161,10 @@ if(Sage) {
                 EACH(queued, function(e) {
                     that.fireEvent.apply(that, e);
                 });
-            }            
+            }
         }); //end S.Evented
 
         S.Evented.prototype.on = S.Evented.prototype.addListener;
         S.Evented.prototype.un = S.Evented.prototype.removeListener;
-    }(Sage));
+    }(window.Sage));
 }

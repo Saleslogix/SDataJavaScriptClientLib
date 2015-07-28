@@ -1,6 +1,6 @@
 // The Top-Level Namespace
 /*global Sage $ alert*/
-Sage = (function() {
+window.Sage = (function() {
     var apply = function(a, b, c)
     {
         if (a && c) for (var n in c) a[n] = c[n];

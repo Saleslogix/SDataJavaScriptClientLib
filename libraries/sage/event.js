@@ -2,7 +2,7 @@
 // to call this directly
 
 /*global Sage $ alert*/
-if(Sage) {
+if(window.Sage) {
     (function(S) {
         var SLICE = Array.prototype.slice,
             TRUE = true, FALSE = false,
@@ -38,7 +38,7 @@ if(Sage) {
             };
         // place the Event class in Utility
         S.namespace('Utility');
-        
+
         S.Utility.Event = Sage.Class.define({
             constructor: function(obj, name) {
                 this.name = name;
@@ -57,7 +57,7 @@ if(Sage) {
                 }
             },
             createListener: function(fn, scope, o) {
-                o = o || {}; 
+                o = o || {};
                 scope = scope || this.obj;
                 var l = {
                     fn: fn,
@@ -149,5 +149,5 @@ if(Sage) {
                 return TRUE;
             }
         }); // end S.Event class
-    }(Sage));
+    }(window.Sage));
 }

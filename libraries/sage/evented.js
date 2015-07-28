@@ -18,14 +18,14 @@
 */
 
 /*global Sage $ alert*/
-if(Sage) {
+if(window.Sage) {
     (function(S) {
         var SLICE = Array.prototype.slice,
             TRUE = true, FALSE = false,
             // do not include these
             FILTER = /^(?:scope|delay|buffer|single)$/,
             EACH = S.each;
-        
+
         S.Evented = S.Class.define({
             constructor: function(config) {
                 var that = this,
@@ -75,7 +75,7 @@ if(Sage) {
                     for (e in o){
                         oe = o[e];
                         if (!FILTER.test(e)) {
-                            that.addListener(e, oe.fn || oe, oe.scope || 
+                            that.addListener(e, oe.fn || oe, oe.scope ||
                                 o.scope, oe.fn ? oe : o);
                         }
                     }
@@ -135,10 +135,10 @@ if(Sage) {
                 EACH(queued, function(e) {
                     that.fireEvent.apply(that, e);
                 });
-            }            
+            }
         }); //end S.Evented
 
         S.Evented.prototype.on = S.Evented.prototype.addListener;
         S.Evented.prototype.un = S.Evented.prototype.removeListener;
-    }(Sage));
+    }(window.Sage));
 }

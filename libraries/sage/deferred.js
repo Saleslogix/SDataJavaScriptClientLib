@@ -1,9 +1,9 @@
 /*global Sage $ alert*/
-if(Sage) {
+if(window.Sage) {
     (function(S) {
         // place the Deferred class into Sage.Utility
         S.namespace('Utility');
-        
+
         S.Utility.Deferred = function(fn, args, scope) {
             var that = this, id,
             c = function() {
@@ -23,5 +23,5 @@ if(Sage) {
                 }
             };
         };
-    }(Sage));
+    }(window.Sage));
 }
