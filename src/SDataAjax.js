@@ -67,8 +67,10 @@
     };
 
     var onTimeout = function(xhr, o) {
-        if (o.failure)
-            o.failure.call(o.scope || this, xhr, o);
+        var handler = o.timeout || o.failure;
+        if (handler) {
+            handler.call(o.scope || this, xhr, o);
+        }
     };
 
     var bindOnTimeout = function(xhr, o) {
@@ -99,7 +101,7 @@
 
     Sage.apply(Sage.SData.Client.Ajax, {
         request: function(o) {
-            var o = S.apply({}, o);
+            o = S.apply({}, o);
 
             o.params = S.apply({}, o.params);
             o.headers = S.apply({}, o.headers);
@@ -141,9 +143,9 @@
             if (o.async !== false)
             {
                 // Set the timeout only if the request is async
-                if (typeof o.timeout === 'number' && o.timeout >= 0 && xhr.hasOwnProperty('timeout'))
+                if (typeof o.requestTimeout === 'number' && o.requestTimeout >= 0 && xhr.hasOwnProperty('timeout'))
                 {
-                    xhr.timeout = o.timeout;
+                    xhr.timeout = o.requestTimeout;
                     bindOnTimeout(xhr, o);
                 }
 
