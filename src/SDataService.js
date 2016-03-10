@@ -65,6 +65,8 @@
         password: '',
         batchScope: null,
         timeout: 0,
+        cache: false,
+        cacheParam: '_t',
         constructor: function(options, userName, password) {
             // pass the first argument to the base class; will only have an effect if the argument
             // is an object and has a `listeners` property.
@@ -89,6 +91,8 @@
             if (isDefined(expanded.json)) this.json = expanded.json;
 
             if (isDefined(expanded.timeout)) this.timeout = expanded.timeout;
+            if (isDefined(expanded.cache)) this.cache = expanded.cache;
+            if (isDefined(expanded.cacheParam)) this.cacheParam = expanded.cacheParam;
 
             // Support for the new compact mode in Saleslogix 8.1 and higher
             if (isDefined(expanded.compact)) this.uri.setCompact(expanded.compact);
@@ -248,7 +252,9 @@
                 async: options.async,
                 headers: {},
                 method: 'GET',
-                url: request.build()
+                url: request.build(),
+                cache: options.cache || this.cache,
+                cacheParam: options.cacheParam || this.cacheParam
             }, {
                 scope: this,
                 success: function(response, opt) {
