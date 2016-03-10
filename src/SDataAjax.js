@@ -106,8 +106,9 @@
             o.params = S.apply({}, o.params);
             o.headers = S.apply({}, o.headers);
 
-            if (o.cache !== true)
+            if (o.cache !== true) {
                 o.params[o.cacheParam || '_t'] = (new Date()).getTime();
+            }
 
             o.method = o.method || 'GET';
 
@@ -134,6 +135,13 @@
 
                 for (var n in o.headers)
                     xhr.setRequestHeader(n, o.headers[n]);
+
+                if (o.cache) {
+                    var etagCache = o.etagCache;
+                    if (etagCache.etag) {
+                        xhr.setRequestHeader('If-None-Match', etagCache.etag);
+                    }
+                }
             }
             catch (headerException)
             {
