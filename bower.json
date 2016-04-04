@@ -1,0 +1,24 @@
+{
+  "name": "SDataJavaScriptClientLib",
+  "homepage": "https://github.com/Saleslogix/SDataJavaScriptClientLib",
+  "description": "SData JavaScript client library.",
+  "keywords": [
+    "sdata"
+  ],
+  "repository":{
+    "type": "git",
+    "url": "http://git.infor.com/scm/inforcrm/sdatajavascriptclientlib.git"
+  },
+  "license": "Apache2",
+  "moduleType": "globals",
+  "main": "deploy/sdata-client.js",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "*.sln",
+    "src",
+    "tests",
+    "build",
+    "tools"
+  ]
+}
