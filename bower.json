@@ -7,7 +7,7 @@
   ],
   "repository":{
     "type": "git",
-    "url": "http://git.infor.com/scm/inforcrm/sdatajavascriptclientlib.git"
+    "url": "http://git.infor.com/scm/inforcrm-bower/sdatajavascriptclientlib.git"
   },
   "license": "Apache2",
   "moduleType": "globals",
