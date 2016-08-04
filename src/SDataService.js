@@ -350,7 +350,6 @@
             };
 
             var builtRequest = request.build();
-            var builtRequestExcludeQuery = request.build(true);
             if (options.httpMethodOverride || (typeof builtRequest === 'string' && builtRequest.length > this.maxGetUriLength))
             {
                 // todo: temporary fix for SalesLogix Dynamic Adapter only supporting json selector in format parameter
@@ -360,7 +359,7 @@
                 ajax.headers['X-HTTP-Method-Override'] = 'GET';
                 ajax.method = 'POST';
                 ajax.body = builtRequest;
-                ajax.url = builtRequestExcludeQuery; // exclude query
+                ajax.url = request.build(true); // exclude query
             }
 
             return this.executeRequest(request, options, ajax);
