@@ -65,6 +65,7 @@
         password: '',
         batchScope: null,
         timeout: 0,
+        maxGetUriLength: 2000,
         constructor: function(options, userName, password) {
             // pass the first argument to the base class; will only have an effect if the argument
             // is an object and has a `listeners` property.
@@ -89,6 +90,8 @@
             if (isDefined(expanded.json)) this.json = expanded.json;
 
             if (isDefined(expanded.timeout)) this.timeout = expanded.timeout;
+
+            if (isDefined(expanded.maxGetUriLength)) this.maxGetUriLength = expanded.maxGetUriLength;
 
             // Support for the new compact mode in Saleslogix 8.1 and higher
             if (isDefined(expanded.compact)) this.uri.setCompact(expanded.compact);
@@ -206,6 +209,13 @@
         setCompact: function(value) {
             this.uri.setCompact(value);
             return this;
+        },
+        setMaxGetUriLength: function(value) {
+            this.maxGetUriLength = value;
+            return this;
+        },
+        getMaxGetUriLength: function() {
+            return this.maxGetUriLength;
         },
         getUserAgent: function() {
             return this.userAgent;
@@ -339,7 +349,9 @@
                 }
             };
 
-            if (options.httpMethodOverride)
+            var builtRequest = request.build();
+            var builtRequestExcludeQuery = request.build(true);
+            if (options.httpMethodOverride || (typeof builtRequest === 'string' && builtRequest.length > this.maxGetUriLength))
             {
                 // todo: temporary fix for SalesLogix Dynamic Adapter only supporting json selector in format parameter
                 // todo: temporary fix for `X-HTTP-Method-Override` and the SalesLogix Dynamic Adapter
@@ -347,8 +359,8 @@
 
                 ajax.headers['X-HTTP-Method-Override'] = 'GET';
                 ajax.method = 'POST';
-                ajax.body = request.build();
-                ajax.url = request.build(true); // exclude query
+                ajax.body = builtRequest;
+                ajax.url = builtRequestExcludeQuery; // exclude query
             }
 
             return this.executeRequest(request, options, ajax);
