@@ -358,7 +358,7 @@
 
                 ajax.headers['X-HTTP-Method-Override'] = 'GET';
                 ajax.method = 'POST';
-                ajax.body = builtRequest;
+                ajax.body = request.build();
                 ajax.url = request.build(true); // exclude query
             }
 
