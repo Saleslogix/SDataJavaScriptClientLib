@@ -371,12 +371,12 @@
             if (this.batchScope)
             {
                 var scope = {
-                url: request.build(),
-                method: 'GET'
+                    url: request.build(),
+                    method: 'GET'
                 };
 
                 if (typeof request.getResourceSelector === 'function') {
-                scope.key = request.getResourceSelector();
+                    scope.key = request.getResourceSelector();
                 }
 
                 this.batchScope.add(scope);
