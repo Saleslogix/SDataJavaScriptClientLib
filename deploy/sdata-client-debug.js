@@ -1497,10 +1497,16 @@
 
             if (this.batchScope)
             {
-                this.batchScope.add({
+                var scope = {
                     url: request.build(),
                     method: 'GET'
-                });
+                };
+
+                if (typeof request.getResourceSelector === 'function') {
+                    scope.key = request.getResourceSelector();
+                }
+
+                this.batchScope.add(scope);
 
                 return;
             }
@@ -1720,6 +1726,7 @@
                 entry = S.apply({}, item.entry); /* only need a shallow copy as only top-level properties will be modified */
 
                 if (item.url) entry['$url'] = item.url;
+                if (item.key) entry['$key'] = item.key;
                 if (item.etag) entry['$ifMatch'] = item.etag;
                 if (item.method) entry['$httpMethod'] = item.method;
 
