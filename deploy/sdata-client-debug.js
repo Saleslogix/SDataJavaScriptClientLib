@@ -491,6 +491,7 @@
         C = Sage.namespace('Sage.SData.Client');
 
     Sage.SData.Client.SDataSingleResourceRequest = Sage.SData.Client.SDataApplicationRequest.extend({
+        key: '',
         constructor: function() {
             this.base.apply(this, arguments);
         },
@@ -516,6 +517,14 @@
         setResourceSelector: function(value) {
             this.uri.setCollectionPredicate(value);
             return this;
+        },
+        setResourceKey: function(value) {
+            this.key = value;
+            this.setResourceSelector("\"" + this.key + "\"");
+            return this;
+        },
+        getResourceKey: function() {
+            return this.key;
         }
     });
 })();
@@ -1502,8 +1511,9 @@
                     method: 'GET'
                 };
 
-                if (typeof request.getResourceSelector === 'function') {
-                    scope.key = request.getResourceSelector();
+                var key = request.getResourceKey();
+                if (typeof key === 'string' && key.length > 0) {
+                    scope.key = key;
                 }
 
                 this.batchScope.add(scope);

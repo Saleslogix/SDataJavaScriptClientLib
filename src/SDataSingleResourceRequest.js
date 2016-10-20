@@ -20,6 +20,7 @@
         C = Sage.namespace('Sage.SData.Client');
 
     Sage.SData.Client.SDataSingleResourceRequest = Sage.SData.Client.SDataApplicationRequest.extend({
+        key: '',
         constructor: function() {
             this.base.apply(this, arguments);
         },
@@ -45,6 +46,14 @@
         setResourceSelector: function(value) {
             this.uri.setCollectionPredicate(value);
             return this;
+        },
+        setResourceKey: function(value) {
+            this.key = value;
+            this.setResourceSelector("\"" + this.key + "\"");
+            return this;
+        },
+        getResourceKey: function() {
+            return this.key;
         }
     });
 })();

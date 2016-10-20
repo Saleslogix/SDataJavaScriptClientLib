@@ -375,8 +375,9 @@
                     method: 'GET'
                 };
 
-                if (typeof request.getResourceSelector === 'function') {
-                    scope.key = request.getResourceSelector();
+                var key = request.getResourceKey();
+                if (typeof key === 'string' && key.length > 0) {
+                    scope.key = key;
                 }
 
                 this.batchScope.add(scope);
