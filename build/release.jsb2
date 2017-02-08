@@ -45,6 +45,9 @@
 		},{
 			text: 'SDataService.js',
 			path: '../src/'
+		},{
+			text: 'SDataXmlToJson.js',
+			path: '../src/'
 		}]
 	},{
 		name: 'SData JavaScript Client Dependencies',
@@ -52,9 +55,6 @@
 		isDebug: true,
 		fileIncludes: [{
 			text: 'Base64.js',
-			path: '../libraries/'
-		},{
-			text: 'ObjTree.js',
 			path: '../libraries/'
 		},{
 		    text: 'parseuri.js',
