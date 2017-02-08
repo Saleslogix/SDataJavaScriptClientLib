@@ -136,12 +136,11 @@
                 for (var n in o.headers)
                     xhr.setRequestHeader(n, o.headers[n]);
 
-                if (o.cache) {
-                    var etagCache = o.etagCache;
-                    if (etagCache.etag) {
-                        xhr.setRequestHeader('If-None-Match', etagCache.etag);
-                    }
+                var etagCache = o.etagCache;
+                if (o.cache && etagCache && etagCache.etag) {
+                    xhr.setRequestHeader('If-None-Match', etagCache.etag);
                 }
+
             }
             catch (headerException)
             {
