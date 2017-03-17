@@ -2,7 +2,7 @@
 // (c) Steven Levithan <stevenlevithan.com>
 // MIT License
 
-function parseUri (str) {
+window.parseUri = function parseUri (str) {
 	var	o   = parseUri.options,
 		m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
 		uri = {},
@@ -18,7 +18,7 @@ function parseUri (str) {
 	return uri;
 };
 
-parseUri.options = {
+window.parseUri.options = {
 	strictMode: false,
 	key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
 	q:   {

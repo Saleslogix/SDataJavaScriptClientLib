@@ -5,7 +5,7 @@
 *
 **/
  
-var Base64 = {
+window.Base64 = {
  
 	// private property
 	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
