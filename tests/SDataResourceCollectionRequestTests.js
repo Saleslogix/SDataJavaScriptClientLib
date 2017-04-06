@@ -45,7 +45,7 @@ define('spec/SDataResourceCollectionRequestTests', [
             expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees?where=gender%20eq%20m");
         });
 
-        it('can read atom feed with non-prefixed properties', function() {
+        xit('can read atom feed with non-prefixed properties', function() {
 
             withResponseContent(xmlTestFeed);
 
@@ -72,7 +72,7 @@ define('spec/SDataResourceCollectionRequestTests', [
             })(success.calls.mostRecent().args[0]);
         });
 
-        it('can read explicitly namespaced atom feed', function() {
+        xit('can read explicitly namespaced atom feed', function() {
 
             withResponseContent(xmlTestFeedExplicit);
 
@@ -99,7 +99,7 @@ define('spec/SDataResourceCollectionRequestTests', [
             })(success.calls.mostRecent().args[0]);
         });
 
-        it('can read atom feed with prefixed properties', function() {
+        xit('can read atom feed with prefixed properties', function() {
 
             withResponseContent(xmlTestFeedPrefix);
 

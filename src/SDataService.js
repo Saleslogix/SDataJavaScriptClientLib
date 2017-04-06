@@ -286,7 +286,8 @@
                     var contentType = response.getResponseHeader && response.getResponseHeader('Content-Type');
                     var feed = this.processFeed(responseText, contentType);
 
-                    var etag = response.getResponseHeader('etag');
+                    var etag = response.getResponseHeader && response.getResponseHeader('etag');
+
                     this._etags[url] = {
                         etag: etag,
                         responseText: responseText
