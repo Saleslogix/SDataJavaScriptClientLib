@@ -22,7 +22,6 @@ XML.ObjTree.prototype.overrideMimeType = 'text/xml';
 //  method: parseXML( xmlsource )
 XML.ObjTree.prototype.parseXML = function ( xml ) {
   console.warn('parseXML is not implemented.');
-  return {};
 };
 
 //  method: parseHTTP( url, options, callback )
@@ -48,7 +47,6 @@ XML.ObjTree.prototype.addNode = function ( hash, key, cnts, val ) {
 //  method: writeXML( tree )
 XML.ObjTree.prototype.writeXML = function ( tree ) {
   console.warn('writeXML is not implemented.');
-  return {};
 };
 
 //  method: hash_to_xml( tagName, tree )
