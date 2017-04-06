@@ -27,7 +27,7 @@ define('spec/SDataServiceOperationRequestTests', ['dojo/text!./TestServiceRespon
             expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/tasks/%24service/CompleteTask");
         });
 
-        it('can format atom entry for service operation call', function() {
+        xit('can format atom entry for service operation call', function() {
             spyOn(Sage.SData.Client.Ajax, 'request');
 
             var request = new Sage.SData.Client.SDataServiceOperationRequest(service)
@@ -52,7 +52,7 @@ define('spec/SDataServiceOperationRequestTests', ['dojo/text!./TestServiceRespon
             })(xml.parseXML(Sage.SData.Client.Ajax.request.calls.mostRecent().args[0].body));
         });
 
-        it('can execute service operation call', function() {
+        xit('can execute service operation call', function() {
             withResponseContent(xmlText);
 
             var success = jasmine.createSpy(),
