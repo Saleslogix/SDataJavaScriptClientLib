@@ -1219,7 +1219,7 @@
                 this.uri = new Sage.SData.Client.SDataUri(options.uri);
             } else {
                 this.uri = new Sage.SData.Client.SDataUri();
-                var parsed = this.parseUri(options);
+                var parsed = options;
                 // Parsed URI
                 if (isDefined(parsed.serverName)) this.uri.setHost(parsed.serverName);
                 if (isDefined(parsed.virtualDirectory)) this.uri.setServer(parsed.virtualDirectory);
