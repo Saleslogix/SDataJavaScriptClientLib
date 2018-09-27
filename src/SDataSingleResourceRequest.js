@@ -49,7 +49,7 @@
         },
         setResourceKey: function(value) {
             this.key = value;
-            this.setResourceSelector("\"" + this.key + "\"");
+            this.setResourceSelector("'" + this.key + "'");
             return this;
         },
         getResourceKey: function() {
