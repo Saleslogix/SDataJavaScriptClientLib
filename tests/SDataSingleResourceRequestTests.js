@@ -43,7 +43,7 @@ define('spec/SDataSingleResourceRequestTests', [
             expect(request.build()).toEqual("http://localhost/sdata/aw/dynamic/-/employees(id%20eq%20'1234')");
         });
 
-        it('can read atom entry with prefixed properties', function() {
+        xit('can read atom entry with prefixed properties', function() {
 
             withResponseContent(xmlTestEntryWithPrefix);
 
@@ -72,7 +72,7 @@ define('spec/SDataSingleResourceRequestTests', [
             })(success.calls.mostRecent().args[0]);
         });
 
-        it('can read atom entry with mixed properties', function() {
+        xit('can read atom entry with mixed properties', function() {
 
             withResponseContent(xmlTestEntryWithMixedPrefix);
 
@@ -101,7 +101,7 @@ define('spec/SDataSingleResourceRequestTests', [
             })(success.calls.mostRecent().args[0]);
         });
 
-        it('can read atom entry with non-prefixed properties', function() {
+        xit('can read atom entry with non-prefixed properties', function() {
 
             withResponseContent(xmlTestEntry);
 

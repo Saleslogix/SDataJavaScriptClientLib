@@ -54,8 +54,13 @@
 
             // Support for the new compact mode in Saleslogix 8.1 and higher
             if (isDefined(options.compact)) this.uri.setCompact(options.compact);
+
+            // Username/password use options first, constructor params will take priority
             if (isDefined(options.userName)) this.userName = options.userName;
             if (isDefined(options.password)) this.password = options.password;
+            if (isDefined(userName)) this.userName = userName;
+            if (isDefined(password)) this.password = password;
+
             if (isDefined(options.json)) this.json = options.json;
             if (isDefined(options.maxGetUriLength)) this.maxGetUriLength = options.maxGetUriLength;
             if (isDefined(options.timeout)) this.timeout = options.timeout;
@@ -95,7 +100,7 @@
                     ? options['url']
                     : options;
 
-            var parsed = (typeof parseUri === 'function') && window.parseUri(url);
+            var parsed = (typeof window.parseUri === 'function') && window.parseUri(url);
             if (parsed)
             {
                 if (parsed.host) result.serverName = parsed.host;
@@ -111,6 +116,8 @@
                 if (parsed.port) result.port = parseInt(parsed.port);
                 if (parsed.protocol) result.protocol = parsed.protocol;
             }
+
+            if (typeof options === 'object') S.apply(result, options);
 
             return result;
         },
@@ -279,7 +286,8 @@
                     var contentType = response.getResponseHeader && response.getResponseHeader('Content-Type');
                     var feed = this.processFeed(responseText, contentType);
 
-                    var etag = response.getResponseHeader('etag');
+                    var etag = response.getResponseHeader && response.getResponseHeader('etag');
+
                     this._etags[url] = {
                         etag: etag,
                         responseText: responseText

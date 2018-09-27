@@ -50,7 +50,7 @@ define('spec/SDataBatchRequestTests', [
             expect(batch.items[1].url).toEqual("http://localhost/sdata/aw/dynamic/-/employees(2)");
         });
 
-        it('can format feed for batch request', function() {
+        xit('can format feed for batch request', function() {
             spyOn(Sage.SData.Client.Ajax, 'request');
 
             var batch = new Sage.SData.Client.SDataBatchRequest(service)
