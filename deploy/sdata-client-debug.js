@@ -1781,7 +1781,11 @@ XML.ObjTree.prototype.xml_escape = function ( text ) {
         executeServiceOperation: function(request, entry, options) {
              var o = S.apply({}, {
                 success: function(feed) {
-                    var entry = feed['$resources'][0] || false,
+                    if (typeof feed === 'undefined' || feed === null) {
+                        feed = {};
+                    }
+
+                    var entry = feed.$resources && feed.$resources[0] || false,
                         response = entry && entry['response'],
                         resources = response && response['$resources'],
                         payload = resources && resources[0];
